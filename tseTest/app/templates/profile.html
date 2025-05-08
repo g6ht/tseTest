@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш профиль</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .card {
+            width: 50%;
+            margin: auto;
+            margin-top: 2rem;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="static/logotype.png" alt="" width="200" height="60" class="d-inline-block align-text-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/main_page">Главная</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Разделы
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for category in categories %}
+                        <li><a class="dropdown-item" href="{{ url_for('category_tests', category=category) }}">{{
+                            category }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/profile">Личный кабинет</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="card text-center">
+    <div class="card-header">
+        Ваш личный кабинет
+    </div>
+
+    <div class="card-body">
+        <div class="mb-4 row">
+            <label for="staticEmail" class="col-sm-3 col-form-label">Ваш Email:</label>
+            <div class="col-lg-8">
+                <input type="text" readonly class="form-control" id="staticEmail" value="{{ current_user.email }}">
+            </div>
+        </div>
+
+
+        <div class="mb-2 row">
+            <label for="name" class="col-sm-3 col-form-label">Ваше имя пользователя:</label>
+            <div class="col-lg-8">
+                <input type="text" readonly class="form-control" id="name" value="{{ current_user.name }}">
+            </div>
+        </div>
+
+
+        <div class="mb-3 row">
+            <label for="about" class="col-sm-3 col-form-label">О себе:</label>
+            <div class="col-sm-8">
+                <textarea readonly class="form-control" id="about">{{ current_user.about }}</textarea>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="created_date" class="col-sm-3 col-form-label">Дата регистрации:</label>
+            <div class="col-sm-8">
+                <input type="text" readonly class="form-control-plaintext" id="created_date"
+                       value="{{ current_user.created_date }}">
+            </div>
+        </div>
+
+        {% if completed %}
+        <p class="text-center">Пройденные тесты:</p>
+
+        <div class="list-group">
+            {% for compl in completed %}
+            <a href="{{ url_for('test', test_id=compl.id) }}" class="list-group-item list-group-item-action">{{
+                compl.title }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <dir></dir>
+        <a href="/create_test" class="btn btn-primary">Создать свой тест</a>
+        <a href="/edit_profile" class="btn btn-primary">Редактировать профиль</a>
+        <a href="/logout" class="btn btn-primary">Выйти из системы</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
